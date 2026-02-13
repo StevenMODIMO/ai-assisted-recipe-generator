@@ -50,7 +50,7 @@ export default function AuthForm({ type }: AuthFormProps) {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto mt-4">
       <Card>
         <CardHeader>
           <CardTitle>
