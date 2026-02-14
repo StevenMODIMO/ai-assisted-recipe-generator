@@ -45,13 +45,13 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user._id.toString(),
           email: user.email,
-          avatar: user.avatar,
+          avatar: user.avatar_url,
         };
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: { params: { scope: "email profile openid" } },
       profile(profile) {
         return {
@@ -69,20 +69,20 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account, trigger, session }) {
       if (user) {
         token.id = user.id;
-        token.avatar = user.avatar;
+        token.avatar_url = user.avatar_url;
       }
       if (trigger === "update" && session?.user) {
-        token.avatar = session.user.avatar;
+        token.avatar_url = session.user.avatar_url;
         token.id = session.user.id;
       }
       if (account?.provider === "twitter") {
-        token.avatar = user?.profile_image_url;
+        token.avatar_url = user?.profile_image_url;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.avatar = token.avatar;
+        session.user.avatar_url = token.avatar_url;
         session.user.id = token.id;
       }
       return session;
@@ -100,7 +100,7 @@ export const authOptions: NextAuthOptions = {
           }
           await User.create({
             email: user?.email,
-            avatar: user?.avatar,
+            avatar_url: user?.avatar_url,
             provider: account?.provider,
           });
           return true;

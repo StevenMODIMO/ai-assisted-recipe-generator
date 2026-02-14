@@ -13,6 +13,7 @@ import {
   CardFooter,
 } from "./ui/card";
 import { useAuth } from "@/hooks/useAuth";
+import { signIn } from "next-auth/react";
 
 interface AuthFormProps {
   type: string;
@@ -38,14 +39,14 @@ export default function AuthForm({ type }: AuthFormProps) {
       });
     }
 
-    if(type === "login") {
+    if (type === "login") {
       await authenticate({
         email,
         password,
         setPassword,
         setEmail,
-        type: "login"
-      })
+        type: "login",
+      });
     }
   };
 
@@ -177,6 +178,12 @@ export default function AuthForm({ type }: AuthFormProps) {
                 {error}
               </div>
             )}
+            <div className="w-full my-2 flex flex-col gap-2">
+              <span className="text-center">Or continue with</span>
+              <Button onClick={() => signIn("google")}>
+                Google
+              </Button>
+            </div>
           </CardContent>
           <CardFooter className="text-center text-xs sm:text-sm">
             Recipe Auth &copy; Recipe House. All rights reserved.
