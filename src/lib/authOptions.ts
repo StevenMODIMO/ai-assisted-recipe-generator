@@ -75,9 +75,6 @@ export const authOptions: NextAuthOptions = {
         token.avatar_url = session.user.avatar_url;
         token.id = session.user.id;
       }
-      if (account?.provider === "twitter") {
-        token.avatar_url = user?.profile_image_url;
-      }
       return token;
     },
     async session({ session, token }) {
@@ -88,6 +85,9 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async signIn({ user, account, profile }) {
+      if (user) {
+        console.log("USER FROM SIGNIN CALLBACK: ", user);
+      }
       if (account?.provider === "google") {
         try {
           await dbConnect();
