@@ -18,14 +18,16 @@ export default function Header() {
       </Link>
       {session?.user ? (
         <div className="flex items-center gap-2">
-          <div className="relative">
-            <Image
-              className="w-12 h-12 rounded-full border-2 p-1"
-              src={session?.user?.avatar!}
-              alt={session?.user?.email!}
-              priority={true}
-            />
-          </div>
+          {session?.user.avatar && (
+            <div className="relative">
+              <Image
+                className="w-12 h-12 rounded-full border-2 p-1"
+                src={session?.user?.avatar!}
+                alt={session?.user?.email!}
+                priority={true}
+              />
+            </div>
+          )}
           <Button
             className="flex items-center gap-2 cursor-pointer"
             variant="outline"
