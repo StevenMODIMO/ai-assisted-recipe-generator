@@ -86,7 +86,9 @@ export const authOptions: NextAuthOptions = {
     },
     async signIn({ user, account, profile }) {
       if (user) {
-        console.log("USER FROM SIGNIN CALLBACK: ", user);
+        console.log("USER FROM SIGNIN PARAM: ", user);
+        console.log("USER FROM ACCOUNT PARAM: ", account);
+        console.log("USER FROM PROFILE PARAM: ", profile);
       }
       if (account?.provider === "google") {
         try {
