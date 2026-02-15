@@ -66,32 +66,25 @@ export const authOptions: NextAuthOptions = {
     signIn: "/auth/login",
   },
   callbacks: {
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
-        token.avatar_url = user.avatar_url;
+        token.avatar = user.avatar;
       }
       if (trigger === "update" && session?.user) {
-        token.avatar_url = session.user.avatar_url;
+        token.avatar = session.user.avatar;
         token.id = session.user.id;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.avatar_url = token.avatar_url;
+        session.user.avatar = token.avatar;
         session.user.id = token.id;
       }
       return session;
     },
-    async signIn({ user, account, profile, credentials, email }) {
-      if (user) {
-        console.log("USER FROM SIGNIN PARAM: ", user);
-        console.log("USER FROM ACCOUNT PARAM: ", account);
-        console.log("USER FROM PROFILE PARAM: ", profile);
-        console.log("USER FROM CREDENTIALS PARAM: ", credentials);
-        console.log("USER FROM EMAIL PARAM: ", email);
-      }
+    async signIn({ user, account, profile}) {
       if (account?.provider === "google") {
         try {
           await dbConnect();
@@ -104,7 +97,7 @@ export const authOptions: NextAuthOptions = {
           }
           await User.create({
             email: user?.email,
-            avatar_url: user?.avatar_url,
+            avatar_url: user?.avatar,
             provider: account?.provider,
           });
           return true;
