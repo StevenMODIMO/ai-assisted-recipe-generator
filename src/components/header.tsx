@@ -7,7 +7,6 @@ import { useSession, signOut } from "next-auth/react";
 
 export default function Header() {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <nav className="p-2 flex items-center justify-between border-b">
       <Link
@@ -19,8 +18,9 @@ export default function Header() {
       </Link>
       {session?.user ? (
         <div className="flex items-center gap-2">
-          <div className="relative w-24 h-24 rounded-full border-2 p-1">
+          <div className="relative">
             <Image
+              className="w-12 h-12 rounded-full border-2 p-1"
               src={session?.user?.avatar!}
               alt={session?.user?.email!}
               priority={true}

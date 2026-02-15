@@ -70,6 +70,7 @@ export default function AuthForm({ type }: AuthFormProps) {
           </CardDescription>
           <CardContent>
             <form
+              autoComplete="on"
               onFocus={() => setError(null)}
               onSubmit={handleSubmit}
               className="flex flex-col gap-2 sm:gap-4"
@@ -143,6 +144,9 @@ export default function AuthForm({ type }: AuthFormProps) {
               </Label>
               <Input
                 value={email}
+                name="email"
+                type="email"
+                autoComplete="username"
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 placeholder="johndoe@gmail.com"
@@ -156,6 +160,10 @@ export default function AuthForm({ type }: AuthFormProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
+                name="password"
+                autoComplete={
+                  type === "signup" ? "new-password" : "current-password"
+                }
                 placeholder="strong-password"
               />
 
@@ -180,9 +188,7 @@ export default function AuthForm({ type }: AuthFormProps) {
             )}
             <div className="w-full my-2 flex flex-col gap-2">
               <span className="text-center">Or continue with</span>
-              <Button onClick={() => signIn("google")}>
-                Google
-              </Button>
+              <Button onClick={() => signIn("google")}>Google</Button>
             </div>
           </CardContent>
           <CardFooter className="text-center text-xs sm:text-sm">
