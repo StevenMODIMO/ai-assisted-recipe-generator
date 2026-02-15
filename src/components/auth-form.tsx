@@ -1,6 +1,6 @@
 "use client";
 import { Mail, Key, Image, ImageOff, Info } from "lucide-react";
-import { useState, SubmitEvent, ChangeEvent } from "react";
+import { useState, useEffect, SubmitEvent, ChangeEvent } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -14,6 +14,7 @@ import {
 } from "./ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 interface AuthFormProps {
   type: string;
@@ -25,6 +26,18 @@ export default function AuthForm({ type }: AuthFormProps) {
   const [avatar, setAvatar] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const { authenticate, error, loading, setError } = useAuth();
+  const searchParams = useSearchParams();
+  const authErrorParam = searchParams.get("error");
+
+  const decodedAuthError = authErrorParam
+    ? decodeURIComponent(authErrorParam)
+    : null;
+
+  useEffect(() => {
+    if (decodedAuthError) {
+      setError(decodedAuthError);
+    }
+  }, [decodedAuthError, setError]);
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
