@@ -84,11 +84,13 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account, profile, credentials, email }) {
       if (user) {
         console.log("USER FROM SIGNIN PARAM: ", user);
         console.log("USER FROM ACCOUNT PARAM: ", account);
         console.log("USER FROM PROFILE PARAM: ", profile);
+        console.log("USER FROM CREDENTIALS PARAM: ", credentials);
+        console.log("USER FROM EMAIL PARAM: ", email);
       }
       if (account?.provider === "google") {
         try {
