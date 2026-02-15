@@ -94,7 +94,7 @@ export default function AuthForm({ type, serverError }: AuthFormProps) {
                       <Input
                         id="file"
                         type="file"
-                        accept="/image/*"
+                        accept="image/*"
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                           const file = e.target.files?.[0];
                           if (file) {

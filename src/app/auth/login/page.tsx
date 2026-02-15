@@ -2,7 +2,6 @@ import AuthForm from "@/components/auth-form";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 export default async function Login({
   searchParams,
@@ -16,9 +15,7 @@ export default async function Login({
     : null;
   return (
     <div>
-      <Suspense fallback={<div>Unknown Error has Occured</div>}>
-        <AuthForm type="login" serverError={error!} />
-      </Suspense>
+      <AuthForm type="login" serverError={error!} />
     </div>
   );
 }
