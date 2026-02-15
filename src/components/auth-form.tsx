@@ -18,26 +18,19 @@ import { useSearchParams } from "next/navigation";
 
 interface AuthFormProps {
   type: string;
+  serverError?: string;
 }
 
-export default function AuthForm({ type }: AuthFormProps) {
+export default function AuthForm({ type, serverError }: AuthFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const { authenticate, error, loading, setError } = useAuth();
-  const searchParams = useSearchParams();
-  const authErrorParam = searchParams.get("error");
-
-  const decodedAuthError = authErrorParam
-    ? decodeURIComponent(authErrorParam)
-    : null;
 
   useEffect(() => {
-    if (decodedAuthError) {
-      setError(decodedAuthError);
-    }
-  }, [decodedAuthError, setError]);
+    if (serverError) setError(serverError);
+  }, [serverError, setError]);
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
