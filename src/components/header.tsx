@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "./ui/button";
 import { House, LogOut } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Header() {
   const { data: session } = useSession();
-  console.log(session)
+  console.log(session);
   return (
     <nav className="p-2 flex items-center justify-between border-b">
       <Link
@@ -17,7 +18,14 @@ export default function Header() {
         <h1 className="font-semibold">Recipe House</h1>
       </Link>
       {session?.user ? (
-        <div>
+        <div className="flex items-center gap-2">
+          <div className="relative w-24 h-24 rounded-full border-2 p-1">
+            <Image
+              src={session?.user?.avatar!}
+              alt={session?.user?.email!}
+              priority={true}
+            />
+          </div>
           <Button
             className="flex items-center gap-2 cursor-pointer"
             variant="outline"
