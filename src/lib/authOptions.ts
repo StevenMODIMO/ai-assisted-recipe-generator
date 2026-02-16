@@ -91,7 +91,7 @@ export const authOptions: NextAuthOptions = {
           const exists_user = await User.findOne({ email: profile?.email });
           if (exists_user) {
             if (exists_user.provider !== account.provider) {
-              return "/login?error=User alredy exists with different provider";
+              return "/auth/login?error=User alredy exists with different provider";
             }
             return true;
           }

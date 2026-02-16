@@ -48,12 +48,12 @@ export default function Header() {
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <Button asChild variant="outline">
+          <Button className="cursor-pointer" asChild variant="outline">
             <Link href="/auth/login" className="text-sm">
               Sign in
             </Link>
           </Button>
-          <Button asChild variant="outline">
+          <Button className="cursor-pointer" asChild variant="outline">
             <Link href="/auth/signup" className="text-sm">
               Get started
             </Link>
