@@ -68,18 +68,18 @@ export default function ProfileModal({
           <CardFooter className="flex flex-col gap-2">
             <Button
               onClick={() => signOut()}
-              className="w-full"
+              className="w-full cursor-pointer disabled:cursor-not-allowed"
               variant="outline"
             >
               Sign out
             </Button>
             <Button
-            disabled={loading}
+              disabled={loading}
               onClick={() => deleteHandler(session?.user.id!)}
-              className="w-full disabled:bg-mute"
+              className="w-full disabled:bg-mute cursor-pointer disabled:cursor-not-allowed"
               variant="destructive"
             >
-              {loading ? "Please wait ...": "Delete Account"}
+              {loading ? "Please wait ..." : "Delete Account"}
             </Button>
           </CardFooter>
         </Card>
