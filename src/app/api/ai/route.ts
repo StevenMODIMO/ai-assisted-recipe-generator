@@ -1,17 +1,16 @@
+//import { authOptions } from "@/lib/authOptions";
 import { type NextRequest, NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI } from "@google/genai"
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 export async function GET(req: NextRequest) {
   try {
-    const response = await ai.models.generateContentStream({
+    const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: "List only ten traits of capricorn zodiac sign.",
+      contents: "Outline common features found ina recipe maker web app",
     });
-    for await (const chunk of response) {
-      return NextResponse.json(chunk.text);
-    }
+    return NextResponse.json({ res: response.text });
   } catch (error) {
     return NextResponse.json({ Error: error }, { status: 404 });
   }
