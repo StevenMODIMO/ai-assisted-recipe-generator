@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { motion } from "motion/react";
 import Image from "next/image";
@@ -13,6 +14,26 @@ export default function ProfileModal({
   setOpenProfile: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
+
+  const deleteHandler = async (id: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/auth/signup/${id}`, {
+        method: "DELETE",
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        signOut();
+      } else {
+        setLoading(false);
+        console.log(json);
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
   return (
     <div
       onClick={() => setOpenProfile(false)}
@@ -52,8 +73,13 @@ export default function ProfileModal({
             >
               Sign out
             </Button>
-            <Button className="w-full" variant="destructive">
-              Delete Account
+            <Button
+            disabled={loading}
+              onClick={() => deleteHandler(session?.user.id!)}
+              className="w-full disabled:bg-mute"
+              variant="destructive"
+            >
+              {loading ? "Please wait ...": "Delete Account"}
             </Button>
           </CardFooter>
         </Card>
