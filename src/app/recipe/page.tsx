@@ -1,3 +1,11 @@
+import IngredientsForm from "@/components/ingredients-form";
+import FeaturedIngredients from "@/components/featured-ingredients";
+
 export default function Recipe() {
-  return <div>Welcome to AI Assisted Recipe Maker</div>;
+  return (
+    <div>
+      <FeaturedIngredients />
+      {/* <IngredientsForm /> */}
+    </div>
+  );
 }
