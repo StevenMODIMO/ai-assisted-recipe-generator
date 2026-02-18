@@ -1,21 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input } from "./ui/input";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
   CardContent,
 } from "./ui/card";
-import { X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import Markdown from "react-markdown";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Suggestions from "./suggestions";
+import { motion } from "motion/react";
 
 interface MealsTypes {
   idMeal: string;
@@ -23,105 +20,154 @@ interface MealsTypes {
   strMealThumb: string;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const itemVariants:any = {
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+};
+
 export default function IngredientsForm() {
   const [ingredient, setIngredient] = useState("");
-  const [suggestions, setShowSuggestions] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [meals, setMeals] = useState<MealsTypes[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        const response = await fetch(
-          "https://www.themealdb.com/api/json/v1/1/list.php?i=list",
-        );
-        const json = await response.json();
-
-        if (response.ok) {
-          console.log(json.meals.slice(0,10));
-        }
-      } catch (error: any) {
-        console.log(error);
-      }
-    };
-    fetchIngredients();
-  }, []);
-
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // ✅ validation
+    if (!ingredient.trim()) {
+      setError("Please enter an ingredient.");
+      return;
+    }
+
+    setError("");
+    setLoading(true);
+    setMeals([]);
 
     try {
       const response = await fetch(
         `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`,
       );
       const json = await response.json();
+
       if (json.meals) {
-        setMeals(json.meals.slice(0, 10));
-        console.log(meals);
+        setMeals(json.meals.slice(0, 6));
         setShowSuggestions(false);
       } else {
+        setMeals([]);
         setShowSuggestions(true);
       }
-    } catch (error: any) {
-      console.log(error);
+    } catch {
+      setError("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      {suggestions && (
+    <div className="w-full lg:flex lg:gap-4">
+      {/* Suggestions panel */}
+      {showSuggestions && (
         <Suggestions
           first_letter={ingredient[0]}
           setShowSuggestions={setShowSuggestions}
         />
       )}
-      <Card>
+
+      <Card className="lg:w-[40%]">
         <CardHeader>
-          <CardTitle>Enter Ingredients</CardTitle>
+          <CardTitle className="text-xl text-purple-500">
+            Find Recipes by Ingredient
+          </CardTitle>
           <CardDescription>
-            Ingredient item that will be used to generate a recipe.
+            Enter a single ingredient and discover meals you can cook.
           </CardDescription>
         </CardHeader>
-        <section>
-          {meals.length > 0 && (
-            <div>
-              {meals.map(({ idMeal, strMeal, strMealThumb }) => {
-                return (
-                  <div key={idMeal}>
-                    <div className="relative w-24 h-24">
-                      <Image
-                        src={strMealThumb}
-                        alt={strMeal}
-                        fill
-                        className="rounded"
-                      />
-                    </div>
-                    <p>{strMeal}</p>
-                    <Link
-                      href={`/recipe/${idMeal}`}
-                      className="underline text-sm text-green-500"
-                    >
-                      View Recipe
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+
+        <CardContent className="space-y-4">
+          {/* FORM */}
+          <form
+            onSubmit={handleSubmit}
+            onFocus={() => setError(null)}
+            className="flex flex-col gap-2"
+          >
             <Input
               type="text"
               value={ingredient}
-              onChange={(e) => {
-                setIngredient(e.target.value);
-              }}
-              placeholder="Enter ingredient"
+              onChange={(e) => setIngredient(e.target.value)}
+              placeholder="e.g. chicken, rice, tomato..."
             />
-            <Button className="w-full">Search recipe</Button>
+
+            {error && (
+              <p className="text-sm text-red-500 font-medium">{error}</p>
+            )}
+
+            <Button disabled={loading}>
+              {loading ? "Searching..." : "Search recipe"}
+            </Button>
           </form>
         </CardContent>
       </Card>
+      <div className="lg:w-[60%]">
+        {/* RESULTS */}
+        {meals.length > 0 && (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-2 sm:grid-cols-3 gap-4"
+          >
+            {meals.map(({ idMeal, strMeal, strMealThumb }) => (
+              <motion.div key={idMeal} variants={itemVariants}>
+                <Link
+                  key={idMeal}
+                  href={`/recipe/${idMeal}`}
+                  className="group rounded-xl overflow-hidden border hover:shadow-md transition"
+                >
+                  <div className="relative w-full h-28">
+                    <Image
+                      src={strMealThumb}
+                      alt={strMeal}
+                      fill
+                      className="object-cover group-hover:scale-105 transition"
+                    />
+                  </div>
+
+                  <div className="p-2">
+                    <p className="text-sm font-semibold line-clamp-2">
+                      {strMeal}
+                    </p>
+                    <p className="text-xs text-green-600 mt-1">View recipe →</p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* EMPTY STATE */}
+        {!loading && meals.length === 0 && !showSuggestions && (
+          <p className="text-sm text-gray-500 text-center pt-2">
+            No recipes yet. Try searching for an ingredient.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

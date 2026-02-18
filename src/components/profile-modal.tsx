@@ -37,7 +37,7 @@ export default function ProfileModal({
   return (
     <div
       onClick={() => setOpenProfile(false)}
-      className="absolute top-0 left-0 w-full h-full sm:bg-black/10 text-white backdrop-blur- z-10 sm:flex sm:justify-end overflow-hidden"
+      className="absolute top-0 left-0 w-full h-full sm:bg-black/50 text-white backdrop-blur z-10 sm:flex sm:justify-end overflow-hidden"
     >
       <motion.div
         initial={{ x: "100%" }}
