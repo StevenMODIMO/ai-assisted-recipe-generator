@@ -6,7 +6,7 @@ export default function RecipeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="mx-6 py-6">
       <RecipeHeader />
       {children}
     </div>
