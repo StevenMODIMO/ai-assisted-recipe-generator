@@ -20,7 +20,7 @@ export default function Header() {
         href={session?.user ? "/recipe" : "/"}
         className="flex items-center gap-2"
       >
-        <House className="w-4 h-4" />
+        <House className="w-4 h-4 text-purple-500" />
         <h1 className="font-semibold">Recipe House</h1>
       </Link>
       {session?.user ? (

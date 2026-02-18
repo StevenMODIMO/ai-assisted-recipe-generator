@@ -118,7 +118,7 @@ export default function IngredientsForm() {
               <p className="text-sm text-red-500 font-medium">{error}</p>
             )}
 
-            <Button disabled={loading}>
+            <Button disabled={loading} className="bg-purple-500 text-white hover:bg-purple-600">
               {loading ? "Searching..." : "Search recipe"}
             </Button>
           </form>
