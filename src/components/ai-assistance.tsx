@@ -11,7 +11,8 @@ import Image from "next/image";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { CircleArrowUp } from "lucide-react";
-import { useState } from "react";
+import { useState, SubmitEvent } from "react";
+import AiResponse from "./ai-response";
 
 interface AiPropsTypes {
   instructions: string;
@@ -21,9 +22,40 @@ interface AiPropsTypes {
 
 export default function Ai({ instructions, meal, ingredients }: AiPropsTypes) {
   const [input, setInput] = useState("");
-  console.log(ingredients);
+  const [loading, setLoading] = useState(false);
+  const [responseModal, setResponseModal] = useState(false);
+  const [aiResponse, setAiResponse] = useState("");
+
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await fetch("/api/ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ meal, instructions, ingredients, input }),
+      });
+      const json = await response.json();
+      if (response.ok) {
+        console.log(json);
+        setAiResponse(json.result);
+        setResponseModal(true);
+      } else {
+        console.log(json);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-[30%] mx-auto">
+      {responseModal && (
+        <AiResponse response={aiResponse} setResponseModal={setResponseModal} />
+      )}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-1">
@@ -65,14 +97,20 @@ export default function Ai({ instructions, meal, ingredients }: AiPropsTypes) {
             </li>
           </ul>
           <section>
-            <form className="flex p-2 border border-purple-500 my-2 rounded">
+            <form
+              onSubmit={handleSubmit}
+              className="flex p-2 border border-purple-500 my-2 rounded"
+            >
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="border-0"
                 placeholder="Ask a question"
               />
-              <Button className="disabled:bg-mute bg-purple-500 hover:bg-purple-500 text-white">
+              <Button
+                disabled={loading}
+                className="disabled:bg-mute bg-purple-500 hover:bg-purple-500 text-white"
+              >
                 <CircleArrowUp />
               </Button>
             </form>
