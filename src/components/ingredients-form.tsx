@@ -92,7 +92,7 @@ export default function IngredientsForm() {
 
       <Card className="lg:w-[40%]">
         <CardHeader>
-          <CardTitle className="text-xl text-purple-500">
+          <CardTitle className="text-xl text-lime-500">
             Find Recipes by Ingredient
           </CardTitle>
           <CardDescription>
@@ -118,7 +118,7 @@ export default function IngredientsForm() {
               <p className="text-sm text-red-500 font-medium">{error}</p>
             )}
 
-            <Button disabled={loading} className="bg-purple-500 text-white hover:bg-purple-600">
+            <Button disabled={loading} className="bg-lime-500 text-white hover:bg-lime-600">
               {loading ? "Searching..." : "Search recipe"}
             </Button>
           </form>

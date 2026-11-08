@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "t0mrrn6uzcxdc7gp.public.blob.vercel-storage.com",
+        hostname: "3ihrcobwrhqsel8a.public.blob.vercel-storage.com",
         pathname: "/cdn.recipe.users/**",
       },
       {
@@ -23,3 +23,5 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+//https://3ihrcobwrhqsel8a.public.blob.vercel-storage.com/cdn.recipe.users/xb.png

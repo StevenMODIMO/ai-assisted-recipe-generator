@@ -7,7 +7,7 @@ export default function RecipeLayout({
 }>) {
   return (
     <div className="mx-6 py-6">
-      <RecipeHeader />
+      {/* <RecipeHeader /> */}
       {children}
     </div>
   );

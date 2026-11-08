@@ -15,6 +15,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 
 interface AuthFormProps {
   type: string;
@@ -122,7 +123,7 @@ export default function AuthForm({ type, serverError }: AuthFormProps) {
                     type === "login"
                       ? "hidden"
                       : type === "signup"
-                        ? "flex flex-col gap-2 items-center border-2 border-purple-500 cursor-pointer p-4 rounded-full w-fit mx-auto"
+                        ? "flex flex-col gap-2 items-center border-2 border-lime-500 cursor-pointer p-3 rounded-full w-fit mx-auto"
                         : "Authentication description"
                   }
                 >
@@ -176,14 +177,14 @@ export default function AuthForm({ type, serverError }: AuthFormProps) {
               {type === "login" ? (
                 <Button
                   disabled={loading}
-                  className="disabled:bg-mute bg-purple-500 hover:bg-purple-500 text-white"
+                  className="disabled:bg-mute text-white"
                 >
                   Sign in
                 </Button>
               ) : type === "signup" ? (
                 <Button
                   disabled={loading}
-                  className="disabled:bg-mute bg-purple-500 hover:bg-purple-500 text-white"
+                  className="disabled:bg-mute text-white"
                 >
                   Create account
                 </Button>
@@ -201,10 +202,9 @@ export default function AuthForm({ type, serverError }: AuthFormProps) {
             <div className="w-full my-2 flex flex-col gap-2">
               <span className="text-center">Or continue with</span>
               <Button
-                className="bg-purple-500 hover:bg-purple-500 text-white"
                 onClick={() => signIn("google")}
               >
-                Google
+                <FcGoogle />
               </Button>
             </div>
           </CardContent>

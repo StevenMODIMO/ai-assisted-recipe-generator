@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Outfit } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/components/theme-provider";
 
-import Header from "@/components/header";
+import Navbar from "@/components/navbar";
 import SessionWrapper from "@/components/session-wrapper";
+import { cn } from "@/lib/utils";
+
+const outfitHeading = Outfit({subsets:['latin'],variable:'--font-heading'});
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +32,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased px-2 py-4`}
-      >
-        <SessionWrapper>
-          <Header />
-          {children}
-        </SessionWrapper>
+    <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable, outfitHeading.variable)}>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionWrapper>
+            <Navbar />
+            {children}
+          </SessionWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -22,7 +22,7 @@ export default async function FeaturedIngredients() {
 
   return (
     <div className="lg:w-[60%] lg:mx-auto">
-      <header className="font-semibold text-lg text-center md:text-start text-purple-500">
+      <header className="font-semibold text-lg text-center md:text-start text-lime-500">
         <h1>Featured Ingredients</h1>
       </header>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 lg:grid lg:grid-cols-6">
@@ -39,7 +39,7 @@ export default async function FeaturedIngredients() {
                 className="object-contain group-hover:scale-105 transition"
               />
             </div>
-            <p className="mt-2 text-sm font-medium">
+            <p className="mt-2 text-sm font-medium dark:text-lime-500">
               {ingredient.strIngredient}
             </p>
           </div>
