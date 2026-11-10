@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: "Outline common features found ina recipe maker web app",
+      contents: "Outline common features found in a recipe maker web app",
     });
     return NextResponse.json({ res: response.text });
   } catch (error) {
