@@ -99,8 +99,8 @@ export default function Navbar() {
             variant="ghost"
             size="icon"
             className="h-10 w-10 rounded-xl text-[#526345] hover:bg-[#f2f6df] dark:text-[#d1dbc8] dark:hover:bg-[#34452b]"
-            aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
-            title={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
+            aria-label="Toggle color theme"
+            title="Toggle color theme"
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
           >
             <Sun className="hidden h-5 w-5 dark:block" />
