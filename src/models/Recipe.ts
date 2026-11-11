@@ -24,24 +24,32 @@ const RecipeSchema = new Schema(
 
     area: { type: String },
 
-    // 🔗 OWNER
     user: {
       type: Types.ObjectId,
       ref: "User",
       required: true,
     },
 
-    // ⭐ engagement
+    sourceMealId: { type: String },
+
+    isAiModified: { type: Boolean, default: false },
+
     favorites: [
       {
         type: Types.ObjectId,
         ref: "User",
       },
     ],
-
-    // 🕓 timestamps
   },
   { timestamps: true },
+);
+
+RecipeSchema.index(
+  { user: 1, sourceMealId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { sourceMealId: { $type: "string" } },
+  },
 );
 
 export default models.Recipe || model("Recipe", RecipeSchema);

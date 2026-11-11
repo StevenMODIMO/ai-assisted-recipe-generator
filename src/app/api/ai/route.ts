@@ -11,7 +11,12 @@ export async function POST(req: NextRequest) {
 Meal: ${meal}
 
 Ingredients:
-${ingredients.map((i: any) => `- ${i.ingredient}: ${i.measure}`).join("\n")}
+${ingredients
+  .map(
+    (i: { ingredient: string; measure: string }) =>
+      `- ${i.ingredient}: ${i.measure}`,
+  )
+  .join("\n")}
 
 Instructions:
 ${instructions}
@@ -24,17 +29,21 @@ ${input}
       contents: prompt,
       config: {
         systemInstruction:
-          "You are a professional chef AI that improves and generates recipes clearly and concisely.",
+          "You are a professional chef AI that improves and generates recipes clearly and concisely. Format recipe responses as readable Markdown with a clear title, a short summary, an Ingredients section with a bulleted list, and a numbered Method section. Add helpful tips or dietary notes when relevant, and omit sections that do not apply. For questions that are not asking for a full recipe, answer directly with a short heading and organized bullets where useful. Respect the user's requested changes and do not invent nutrition facts.",
       },
     });
 
     return NextResponse.json({ result: response.text });
-  } catch (error: any) {
-    return NextResponse.json(error);
+  } catch (error: unknown) {
+    console.error("AI recipe generation failed", error);
+    return NextResponse.json(
+      { error: "We couldn't create your recipe update. Please try again." },
+      { status: 500 },
+    );
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",

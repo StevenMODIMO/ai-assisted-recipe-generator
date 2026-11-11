@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
 
 export async function dbConnect() {
-  await mongoose
-    .connect(process.env.MONGO_URI!)
-    .then(() => console.log("Database connected 🚀"))
-    .catch((error) => console.log(`Database Error: ${error}`));
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    throw new Error("MONGO_URI is not configured.");
+  }
+
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
+  await mongoose.connect(uri);
 }
