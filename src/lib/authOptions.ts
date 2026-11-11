@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/auth/login",
+    signIn: "/signin",
   },
   callbacks: {
     async jwt({ token, user, trigger, session }) {
@@ -91,7 +91,7 @@ export const authOptions: NextAuthOptions = {
           const exists_user = await User.findOne({ email: profile?.email });
           if (exists_user) {
             if (exists_user.provider !== account.provider) {
-              return "/auth/login?error=User alredy exists with different provider";
+              return "/signin?error=User already exists with different provider";
             }
             return true;
           }
