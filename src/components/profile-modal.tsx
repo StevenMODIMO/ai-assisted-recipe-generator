@@ -1,10 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "motion/react";
-import { AlertCircle, LoaderCircle, LogOut, Trash2, UserRound, X } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowUpRight,
+  BookmarkCheck,
+  LoaderCircle,
+  LogOut,
+  Salad,
+  Soup,
+  Trash2,
+  UserRound,
+  X,
+} from "lucide-react";
 import { Button } from "./ui/button";
 
 type ProfileModalProps = {
@@ -131,6 +143,48 @@ export default function ProfileModal({ setOpenProfile }: ProfileModalProps) {
             <p className="mt-1 break-all font-mono text-xs text-[#526345] dark:text-[#d1dbc8]">
               {session?.user?.id || "Unavailable"}
             </p>
+          </div>
+        </div>
+
+        <div className="mt-7">
+          <h3 className="text-sm font-extrabold">Your kitchen</h3>
+          <p className="mt-1 text-sm text-[#64705a] dark:text-[#b5c0aa]">
+            Pick up where you left off or find something new to make.
+          </p>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <Link
+              href="/recipe/my-recipes"
+              onClick={() => setOpenProfile(false)}
+              className="group rounded-xl border-2 border-[#d8ddce] bg-white p-4 transition-colors hover:border-[#9fbd7e] hover:bg-[#f7faef] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71934d] dark:border-[#52604b] dark:bg-[#20291e] dark:hover:bg-[#263323]"
+            >
+              <BookmarkCheck className="h-5 w-5 text-[#5b8d35] dark:text-[#a8cf7b]" />
+              <span className="mt-3 block font-extrabold">My recipes</span>
+              <span className="mt-1 block text-xs text-[#78806c] dark:text-[#aab69e]">
+                Your saved collection
+              </span>
+              <ArrowUpRight className="ml-auto mt-2 h-4 w-4 text-[#78806c] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:text-[#aab69e]" />
+            </Link>
+            <Link
+              href="/recipe/create"
+              onClick={() => setOpenProfile(false)}
+              className="group rounded-xl border-2 border-[#d8ddce] bg-white p-4 transition-colors hover:border-[#9fbd7e] hover:bg-[#f7faef] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71934d] dark:border-[#52604b] dark:bg-[#20291e] dark:hover:bg-[#263323]"
+            >
+              <Soup className="h-5 w-5 text-[#5b8d35] dark:text-[#a8cf7b]" />
+              <span className="mt-3 block font-extrabold">Create recipe</span>
+              <span className="mt-1 block text-xs text-[#78806c] dark:text-[#aab69e]">
+                Cook with what you have
+              </span>
+              <ArrowUpRight className="ml-auto mt-2 h-4 w-4 text-[#78806c] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:text-[#aab69e]" />
+            </Link>
+            <Link
+              href="/recipe"
+              onClick={() => setOpenProfile(false)}
+              className="group col-span-2 flex items-center gap-3 rounded-xl border-2 border-[#d8ddce] bg-white p-4 transition-colors hover:border-[#9fbd7e] hover:bg-[#f7faef] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71934d] dark:border-[#52604b] dark:bg-[#20291e] dark:hover:bg-[#263323]"
+            >
+              <Salad className="h-5 w-5 text-[#5b8d35] dark:text-[#a8cf7b]" />
+              <span className="flex-1 font-extrabold">Explore recipes</span>
+              <ArrowUpRight className="h-4 w-4 text-[#78806c] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:text-[#aab69e]" />
+            </Link>
           </div>
         </div>
 

@@ -1,5 +1,16 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Password reset email
+
+Password reset emails are sent through Resend. Configure `RESEND_API_KEY` and
+`NEXTAUTH_URL` in the environment. During local development, the app uses
+Resend's `onboarding@resend.dev` sender by default; Resend limits that sender to the
+email address associated with your Resend account. For production, configure
+`RESEND_FROM_EMAIL` with a sender address on a domain verified in Resend.
+
+Reset links expire after 30 minutes and can only be used once. Reset requests
+are rate-limited per account to one email per minute.
+
 ## Getting Started
 
 First, run the development server:

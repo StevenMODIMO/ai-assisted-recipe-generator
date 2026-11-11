@@ -194,6 +194,15 @@ export default function AuthForm({ type, serverError }: AuthFormProps) {
                 />
               </div>
 
+              {!isSignup && (
+                <Link
+                  href="/forgot-password"
+                  className="w-fit text-sm font-bold text-[#527c34] underline decoration-[#a8d75c] underline-offset-4 hover:text-[#263522] dark:text-[#b8df8c] dark:hover:text-white"
+                >
+                  Forgot password?
+                </Link>
+              )}
+
               {error && (
                 <div
                   role="alert"

@@ -6,6 +6,9 @@ const userSchema = new Schema(
     password: String,
     avatar_url: String,
     provider: { type: String, default: "Credentials" },
+    passwordResetTokenHash: String,
+    passwordResetExpiresAt: Date,
+    passwordResetRequestedAt: Date,
   },
   { timestamps: true },
 );
